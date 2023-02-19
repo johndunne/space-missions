@@ -5,6 +5,7 @@ info:
   title: Space Missions
   version: '1.0'
   summary: 'A simple REST API into historic, present and future space missions. That''s humanity exploring the solar system and beyond.'
+  description: 'A simple REST API into historic, present and future space missions. That''s humanity exploring the solar system and beyond.'
   contact:
     name: John Dunne
     email: john@alldunne.org
@@ -103,15 +104,15 @@ paths:
         in: path
         required: true
     get:
-      summary: Get User Info by User ID
+      summary: Get Mission Info by mission ID
       tags: []
       responses:
         '200':
-          description: User Found
+          description: Mission Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/Mission'
               examples:
                 Get User Alice Smith:
                   value:
@@ -127,7 +128,7 @@ paths:
       operationId: get-mission-missionId
       description: Retrieve the information of the mission with the matching mission ID.
     patch:
-      summary: Update User Information
+      summary: Update Mission Information
       operationId: patch-mission-missionId
       responses:
         '200':
@@ -135,7 +136,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/Mission'
               examples:
                 Updated User Rebecca Baker:
                   value:
@@ -147,7 +148,7 @@ paths:
                     emailVerified: false
                     createDate: '2019-08-24'
         '404':
-          description: User Not Found
+          description: Mission Not Found
         '409':
           description: Email Already Taken
       description: Update the information of an existing mission.
@@ -157,15 +158,19 @@ paths:
             schema:
               type: object
               properties:
-                firstName:
+                name:
                   type: string
-                lastName:
+                description:
                   type: string
-                email:
-                  type: string
-                  description: 'If a new email is given, the user''s email verified property will be set to false.'
-                dateOfBirth:
-                  type: string
+                launch:
+                  type: integer
+                  format: int64
+                starts:
+                  type: integer
+                  format: int64
+                ends:
+                  type: integer
+                  format: int64
             examples:
               Update First Name:
                 value:
@@ -201,7 +206,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/MissionOperator'
               examples:
                 Get User Alice Smith:
                   value:
@@ -217,15 +222,15 @@ paths:
       operationId: get-operator-operatorId
       description: Retrieve the information of the mission operator with the matching mission operator ID.
     patch:
-      summary: Update User Information
+      summary: Update Operator Information
       operationId: patch-operator-operatorId
       responses:
         '200':
-          description: User Updated
+          description: Operator Updated
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/MissionOperator'
               examples:
                 Updated User Rebecca Baker:
                   value:
@@ -237,7 +242,7 @@ paths:
                     emailVerified: false
                     createDate: '2019-08-24'
         '404':
-          description: User Not Found
+          description: Operator Not Found
         '409':
           description: Email Already Taken
       description: Update the information of an existing operator.
@@ -247,14 +252,9 @@ paths:
             schema:
               type: object
               properties:
-                firstName:
+                name:
                   type: string
-                lastName:
-                  type: string
-                email:
-                  type: string
-                  description: 'If a new email is given, the user''s email verified property will be set to false.'
-                dateOfBirth:
+                description:
                   type: string
             examples:
               Update First Name:
@@ -291,7 +291,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/Observatory'
               examples:
                 Get User Alice Smith:
                   value:
@@ -337,15 +337,13 @@ paths:
             schema:
               type: object
               properties:
-                firstName:
+                name:
                   type: string
-                lastName:
+                description:
                   type: string
-                email:
+                platformType:
                   type: string
-                  description: 'If a new email is given, the user''s email verified property will be set to false.'
-                dateOfBirth:
-                  type: string
+                  description: 'The platform type; telescope, observatory, satelite.'
             examples:
               Update First Name:
                 value:
@@ -381,7 +379,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/Subject'
               examples:
                 Get User Alice Smith:
                   value:
@@ -427,14 +425,11 @@ paths:
             schema:
               type: object
               properties:
-                firstName:
+                name:
                   type: string
-                lastName:
+                description:
                   type: string
-                email:
-                  type: string
-                  description: 'If a new email is given, the user''s email verified property will be set to false.'
-                dateOfBirth:
+                location:
                   type: string
             examples:
               Update First Name:
@@ -451,6 +446,95 @@ paths:
     delete:
       summary: ''
       operationId: delete-subject-subjectId
+      responses:
+        '200':
+          description: OK
+      description: Delete a mission with the matching missionId.
+  '/instrument/{instrumentId}':
+    parameters:
+      - schema:
+          type: string
+        name: instrumentId
+        in: path
+        required: true
+    get:
+      summary: Get Instrument Info by instrument ID
+      tags: []
+      responses:
+        '200':
+          description: User Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subject'
+              examples:
+                Get User Alice Smith:
+                  value:
+                    id: 142
+                    firstName: Alice
+                    lastName: Smith
+                    email: alice.smith@gmail.com
+                    dateOfBirth: '1997-10-31'
+                    emailVerified: true
+                    signUpDate: '2019-08-24'
+        '404':
+          description: User Not Found
+      operationId: get-instrument-instrumentId
+      description: Retrieve the information of the mission with the matching mission ID.
+    patch:
+      summary: Update instrument Information
+      operationId: patch-instrument-instrumentId
+      responses:
+        '200':
+          description: Instrument Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Instrument'
+              examples:
+                Updated User Rebecca Baker:
+                  value:
+                    id: 13
+                    firstName: Rebecca
+                    lastName: Baker
+                    email: rebecca@gmail.com
+                    dateOfBirth: '1985-10-02'
+                    emailVerified: false
+                    createDate: '2019-08-24'
+        '404':
+          description: Instrument Not Found
+        '409':
+          description: Email Already Taken
+      description: Update the information of an existing user.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                instrumentId:
+                  type: integer
+                name:
+                  type: string
+                mission:
+                  type: string
+                description:
+                  type: string
+            examples:
+              Update First Name:
+                value:
+                  firstName: Rebecca
+              Update Email:
+                value:
+                  email: rebecca@gmail.com
+              Update Last Name & Date of Birth:
+                value:
+                  lastName: Baker
+                  dateOfBirth: '1985-10-02'
+        description: Patch user properties to update.
+    delete:
+      summary: Delete instrument
+      operationId: delete-instrument-instrumentId
       responses:
         '200':
           description: OK
@@ -515,12 +599,50 @@ paths:
       tags: []
       responses: {}
       operationId: get-mission
+      parameters:
+        - schema:
+            type: string
+          in: query
+          description: Query missions by name
+          name: name
+        - schema:
+            type: string
+          in: query
+          name: description
+          description: Query missions by descriptions
+      description: Query missions.
     post:
       summary: ''
       operationId: post-mission
       responses:
         '200':
           description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                launch:
+                  type: integer
+                  format: int64
+                starts:
+                  type: integer
+                  format: int64
+                ends:
+                  type: integer
+                  format: int64
+              required:
+                - name
+                - launch
+                - description
+                - starts
+                - ends
+        description: Post the necessary fields for the API to create a new user.
       description: Create a mission
   /operator:
     get:
@@ -535,6 +657,32 @@ paths:
       responses:
         '200':
           description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                launch:
+                  type: integer
+                  format: int64
+                starts:
+                  type: integer
+                  format: int64
+                ends:
+                  type: integer
+                  format: int64
+              required:
+                - name
+                - launch
+                - description
+                - starts
+                - ends
+        description: Post the necessary fields for the API to create a new user.
       description: Create a mission
     parameters: []
   /observatory:
@@ -549,6 +697,24 @@ paths:
       responses:
         '200':
           description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                platformType:
+                  type: string
+                  description: 'The platform type; telescope, observatory, satelite.'
+              required:
+                - name
+                - description
+                - platformType
+        description: Post the necessary fields for the API to create a new user.
       description: Create a mission
     parameters: []
   /subject:
@@ -563,6 +729,23 @@ paths:
       responses:
         '200':
           description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                location:
+                  type: string
+              required:
+                - name
+                - description
+                - location
+        description: Post the necessary fields for the API to create a new user.
       description: Create a mission
     parameters: []
 components:
@@ -615,6 +798,10 @@ components:
       properties:
         id:
           type: integer
+        name:
+          type: string
+        description:
+          type: string
     Mission:
       title: Mission
       x-stoplight:
@@ -627,6 +814,15 @@ components:
           type: string
         description:
           type: string
+        launch:
+          type: integer
+          format: int64
+        starts:
+          type: integer
+          format: int64
+        ends:
+          type: integer
+          format: int64
     Observatory:
       title: Observatory
       x-stoplight:
@@ -635,6 +831,13 @@ components:
       properties:
         id:
           type: integer
+        name:
+          type: string
+        description:
+          type: string
+        platformType:
+          type: string
+          description: 'The platform type; telescope, observatory, satelite.'
     Subject:
       title: Subject
       x-stoplight:
@@ -643,6 +846,12 @@ components:
       properties:
         id:
           type: integer
+        name:
+          type: string
+        description:
+          type: string
+        location:
+          type: string
     AccessEvent:
       title: AccessEvent
       x-stoplight:
@@ -651,6 +860,14 @@ components:
       properties:
         id:
           type: integer
+        when:
+          type: integer
+          format: int64
+        apiKeyId:
+          type: integer
+          format: int64
+        target:
+          type: string
     Country:
       title: Country
       x-stoplight:
@@ -675,4 +892,87 @@ components:
           type: integer
         level:
           type: string
-
+    Instrument:
+      title: Instrument
+      x-stoplight:
+        id: rsk5n4c4jq92y
+      type: object
+      description: 'A science instrument installed on an observatory. '
+      properties:
+        id:
+          type: integer
+        observatoryId:
+          type: integer
+        name:
+          type: string
+        mission:
+          type: string
+        description:
+          type: string
+  requestBodies:
+    SearchMission:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              mission:
+                $ref: '#/components/schemas/Mission'
+              '':
+                type: string
+  responses:
+    ObservatoryResponse:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+              observatory:
+                $ref: '#/components/schemas/Observatory'
+    MissionResponse:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+              observatory:
+                $ref: '#/components/schemas/Mission'
+    MissionOperatorResponse:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+              observatory:
+                $ref: '#/components/schemas/MissionOperator'
+    InstrumentResponse:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+              observatory:
+                $ref: '#/components/schemas/Instrument'
+    SubjectResponse:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+              observatory:
+                $ref: '#/components/schemas/Subject'
