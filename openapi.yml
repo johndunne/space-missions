@@ -11,7 +11,63 @@ info:
     email: john@alldunne.org
 servers:
   - url: 'https://spacemissions.alldunne.com'
+tags:
+  - name: user
+    description: Access and control user objects
+    externalDocs:
+      url: 'http://docs.my-api.com/pet-operations.htm'
+  - name: mission
+    description: Access mission information
+    externalDocs:
+      url: 'http://docs.my-api.com/store-orders.htm'
+  - name: observatory
+    description: Access observatory information
+    externalDocs:
+      url: 'http://docs.my-api.com/store-orders.htm'
+  - name: instrument
+    description: Access observatory information
+    externalDocs:
+      url: 'http://docs.my-api.com/store-orders.htm'
+  - name: subject
+    description: Access the various mission subjects
+    externalDocs:
+      url: 'http://docs.my-api.com/store-orders.htm'
+  - name: platform
+    description: Access the various mission subjects
+    externalDocs:
+      url: 'http://docs.my-api.com/store-orders.htm'
+  - name: operator
+    description: Access the various mission subjects
+    externalDocs:
+      url: 'http://docs.my-api.com/store-orders.htm'
 paths:
+  '/users/{userId}/api-access':
+    parameters:
+      - schema:
+          type: integer
+        name: userId
+        in: path
+        required: true
+        description: Id of an existing user.
+    get:
+      summary: Get User's access events by User ID
+      tags:
+        - user
+      security:
+        - api: []
+      responses:
+        '200':
+          description: User Found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AccessEvent'
+        '404':
+          description: User Not Found
+      operationId: get-users-access-events-userId
+      description: Retrieve the user's access events of the user with the matching user ID.
   '/users/{userId}':
     parameters:
       - schema:
@@ -22,7 +78,10 @@ paths:
         description: Id of an existing user.
     get:
       summary: Get User Info by User ID
-      tags: []
+      tags:
+        - user
+      security:
+        - api: []
       responses:
         '200':
           description: User Found
@@ -46,7 +105,11 @@ paths:
       description: Retrieve the information of the user with the matching user ID.
     patch:
       summary: Update User Information
+      tags:
+        - user
       operationId: patch-users-userId
+      security:
+        - api: []
       responses:
         '200':
           description: User Updated
@@ -105,7 +168,10 @@ paths:
         required: true
     get:
       summary: Get Mission Info by mission ID
-      tags: []
+      tags:
+        - mission
+      security:
+        - api: []
       responses:
         '200':
           description: Mission Found
@@ -128,8 +194,12 @@ paths:
       operationId: get-mission-missionId
       description: Retrieve the information of the mission with the matching mission ID.
     patch:
+      tags:
+        - mission
       summary: Update Mission Information
       operationId: patch-mission-missionId
+      security:
+        - api: []
       responses:
         '200':
           description: User Updated
@@ -185,7 +255,11 @@ paths:
         description: Patch user properties to update.
     delete:
       summary: ''
+      tags:
+        - mission
       operationId: delete-mission-missionId
+      security:
+        - api: []
       responses:
         '200':
           description: OK
@@ -199,7 +273,10 @@ paths:
         required: true
     get:
       summary: Get User Info by User ID
-      tags: []
+      tags:
+        - operator
+      security:
+        - api: []
       responses:
         '200':
           description: User Found
@@ -222,8 +299,12 @@ paths:
       operationId: get-operator-operatorId
       description: Retrieve the information of the mission operator with the matching mission operator ID.
     patch:
+      tags:
+        - operator
       summary: Update Operator Information
       operationId: patch-operator-operatorId
+      security:
+        - api: []
       responses:
         '200':
           description: Operator Updated
@@ -270,7 +351,11 @@ paths:
         description: Patch user properties to update.
     delete:
       summary: ''
+      tags:
+        - operator
       operationId: delete-operator-operatorId
+      security:
+        - api: []
       responses:
         '200':
           description: OK
@@ -283,8 +368,11 @@ paths:
         in: path
         required: true
     get:
-      summary: Get User Info by User ID
-      tags: []
+      summary: Get Observatory Info by User ID
+      tags:
+        - observatory
+      security:
+        - api: []
       responses:
         '200':
           description: User Found
@@ -307,8 +395,12 @@ paths:
       operationId: get-observatory-observatoryId
       description: Retrieve the information of the mission with the matching mission ID.
     patch:
+      tags:
+        - observatory
       summary: Update User Information
       operationId: patch-observatory-observatoryId
+      security:
+        - api: []
       responses:
         '200':
           description: User Updated
@@ -357,8 +449,12 @@ paths:
                   dateOfBirth: '1985-10-02'
         description: Patch user properties to update.
     delete:
+      tags:
+        - observatory
       summary: ''
       operationId: delete-observatory-observatoryId
+      security:
+        - api: []
       responses:
         '200':
           description: OK
@@ -372,7 +468,10 @@ paths:
         required: true
     get:
       summary: Get User Info by User ID
-      tags: []
+      tags:
+        - subject
+      security:
+        - api: []
       responses:
         '200':
           description: User Found
@@ -397,6 +496,10 @@ paths:
     patch:
       summary: Update User Information
       operationId: patch-subject-subjectId
+      tags:
+        - subject
+      security:
+        - api: []
       responses:
         '200':
           description: User Updated
@@ -445,7 +548,11 @@ paths:
         description: Patch user properties to update.
     delete:
       summary: ''
+      tags:
+        - subject
       operationId: delete-subject-subjectId
+      security:
+        - api: []
       responses:
         '200':
           description: OK
@@ -459,7 +566,10 @@ paths:
         required: true
     get:
       summary: Get Instrument Info by instrument ID
-      tags: []
+      tags:
+        - instrument
+      security:
+        - api: []
       responses:
         '200':
           description: User Found
@@ -482,8 +592,12 @@ paths:
       operationId: get-instrument-instrumentId
       description: Retrieve the information of the mission with the matching mission ID.
     patch:
+      tags:
+        - instrument
       summary: Update instrument Information
       operationId: patch-instrument-instrumentId
+      security:
+        - api: []
       responses:
         '200':
           description: Instrument Updated
@@ -533,16 +647,24 @@ paths:
                   dateOfBirth: '1985-10-02'
         description: Patch user properties to update.
     delete:
+      tags:
+        - instrument
       summary: Delete instrument
       operationId: delete-instrument-instrumentId
+      security:
+        - api: []
       responses:
         '200':
           description: OK
       description: Delete a mission with the matching missionId.
   /user:
     post:
+      tags:
+        - user
       summary: Create New User
       operationId: post-user
+      security:
+        - api: []
       responses:
         '200':
           description: User Created
@@ -596,8 +718,13 @@ paths:
   /mission:
     get:
       summary: Your GET endpoint
-      tags: []
-      responses: {}
+      tags:
+        - mission
+      security:
+        - api: []
+      responses:
+        '200':
+          description: OK
       operationId: get-mission
       parameters:
         - schema:
@@ -612,10 +739,14 @@ paths:
           description: Query missions by descriptions
       description: Query missions.
     post:
-      summary: ''
+      summary: Create mission object
+      tags:
+        - mission
       operationId: post-mission
+      security:
+        - api: []
       responses:
-        '200':
+        '201':
           description: OK
       requestBody:
         content:
@@ -647,15 +778,24 @@ paths:
   /operator:
     get:
       summary: Your GET endpoint
-      tags: []
-      responses: {}
+      tags:
+        - operator
       operationId: get-operator
       description: Get the operator with matching operator ID.
-    post:
-      summary: ''
-      operationId: post-operator
+      security:
+        - api: []
       responses:
         '200':
+          description: OK
+    post:
+      summary: ''
+      tags:
+        - operator
+      operationId: post-operator
+      security:
+        - api: []
+      responses:
+        '201':
           description: OK
       requestBody:
         content:
@@ -688,14 +828,24 @@ paths:
   /observatory:
     get:
       summary: Your GET endpoint
-      tags: []
-      responses: {}
+      tags:
+        - observatory
+      security:
+        - api: []
+      responses:
+        '200':
+          description: OK
+      description: Get observatory information
       operationId: get-observatory
     post:
       summary: ''
+      tags:
+        - observatory
       operationId: post-observatory
+      security:
+        - api: []
       responses:
-        '200':
+        '201':
           description: OK
       requestBody:
         content:
@@ -720,14 +870,24 @@ paths:
   /subject:
     get:
       summary: Your GET endpoint
-      tags: []
-      responses: {}
+      tags:
+        - subject
+      security:
+        - api: []
+      responses:
+        '200':
+          description: OK
+      description: Get subject information
       operationId: get-subject
     post:
       summary: ''
+      tags:
+        - subject
       operationId: post-subject
+      security:
+        - api: []
       responses:
-        '200':
+        '201':
           description: OK
       requestBody:
         content:
@@ -976,3 +1136,15 @@ components:
                 type: integer
               observatory:
                 $ref: '#/components/schemas/Subject'
+  securitySchemes:
+    admin:
+      type: apiKey
+      in: header
+      name: Super user
+    api:
+      name: API access
+      type: apiKey
+      in: header
+security:
+  - admin: []
+
